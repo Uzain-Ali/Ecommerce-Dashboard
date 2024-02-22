@@ -1,9 +1,35 @@
 .navUl li{
   display: inline-block;
   padding: 10px;
-  text-decoration: none;
 }
 
+
+.navUl{
+  padding: 5px;
+  margin: 0;
+  background-color: aqua;
+}
+
+.navUl li a{
+  color: black;
+  padding: 5px;
+  text-decoration: none;
+  
+}
+.navUl li a:hover{
+  color: white;
+  padding: 5px;
+  text-decoration: none;
+
+}
+
+.footer{
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  background-color: aqua;
+}
 
 
 @media (prefers-reduced-motion: no-preference) {
