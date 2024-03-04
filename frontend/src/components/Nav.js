@@ -10,14 +10,22 @@ const Nav=()=>{
     }
     return(
         <div>
-            <ul className='navUl'>
+
+          { auth ?  <ul className='navUl'>
+          <img alt='logo' className='logo' src="https://www.shutterstock.com/shutterstock/photos/2278726727/display_1500/stock-vector-minimalistic-circular-logo-sample-vector-2278726727.jpg"/>
+
                 <li><Link to="/">Products</Link></li>
                 <li><Link to="/add">Add Product</Link></li>
                 <li><Link to="/update">Update Products</Link></li>
                 <li><Link to="/profile">Profile</Link></li>
-                <li>{ auth ? <Link onClick={logout} to="/signup">Logout</Link>: 
-                <Link to="/signup">Sign Up</Link>}</li>
+                <li><Link onClick={logout} to="/signup">Logout ({JSON.parse(auth).name})</Link></li>
             </ul>
+            :
+            <ul className='navUl nav-rightSide'>
+                    <li><Link to="/signup">Sign Up</Link></li>
+                    <li><Link to="/login">Login</Link></li>
+            </ul>
+        }
         </div>
     )
 }
