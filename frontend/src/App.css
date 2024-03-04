@@ -31,6 +31,10 @@
   margin-left: 20px;
 }
 
+.invalidInput{
+  color: red;
+  margin: -20px 0 5px 0;
+}
 .footer{
   position: absolute;
   bottom: 0;
