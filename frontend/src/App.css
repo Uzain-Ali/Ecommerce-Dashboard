@@ -42,6 +42,30 @@
   padding: 5px;
   width: 150px;
 }
+
+.productList ul li button{
+  width: 70px;
+  height: 20px;
+  border: 1px  solid red;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  color: red;
+  font-weight: 550;
+  cursor: pointer;
+
+}
+
+.productList ul li .updateBtn{
+  width: 70px;
+  height: 20px;
+  border: 1px  solid green;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  margin-left: 5px;
+  cursor: pointer;
+  color: green;
+  font-weight: 550;
+}
 .productList ul{
   margin: 0;
 }

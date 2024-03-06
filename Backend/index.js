@@ -41,7 +41,7 @@ app.get("/products",async(req,res)=>{
     if(products.length > 0){
         res.send(products)
     }else{
-        resp.send({result:"No result found"});
+        res.send({result:"No result found"});
     }
     
 })
