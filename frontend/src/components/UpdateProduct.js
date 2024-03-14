@@ -23,7 +23,15 @@ const UpdateProduct = ()=>{
     }
 
     const updateProduct=async()=>{
-        console.warn(name,price, category,company);
+        let result = await fetch(`http://localhost:5000/product/${params.id}`,{
+        method:"PUT",
+        body:JSON.stringify({name,price, category,company}),
+        headers:{
+            'Content-Type':'application/json'
+        }
+    });
+    result = await result.json();
+    console.log(result);
     };
     return(
         <div className='signuppage'>
@@ -40,6 +48,5 @@ const UpdateProduct = ()=>{
         </div>
         </div>
     )
-}
-
+};
 export default UpdateProduct;
