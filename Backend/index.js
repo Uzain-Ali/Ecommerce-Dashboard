@@ -3,7 +3,12 @@ const cors = require('cors');
 require('./db/config');
 const User = require('./db/User');
 const Product = require("./db/Product");
+const jwt = require('jsonwebtoken');
+const jwtKey = 'e-comm';
+
 const app= express();
+
+
 
 app.use(express.json());
 app.use(cors());
@@ -13,16 +18,26 @@ app.post("/register",async (req,res)=>{
     let result =await user.save();
     result =await result.toObject();
     delete result.password;
-    res.send(result);
+    jwt.sign({result},jwtKey,{expiresIn:"2h"}, (err, token)=>{
+        if(err){
+            res.send({result: "Something went wrong, Please try after sometime"}); 
+        }
+        res.send({result, auth:token}); 
+    })
 })
 
 app.post("/login",async(req, res)=>{
     console.log(req.body);
-    if(req.body.email && req.body.password  )
+    if(req.body.email && req.body.password)
     {
         let user =await User.findOne(req.body).select("-password");
         if(user) {
-          res.send(user); 
+          jwt.sign({user},jwtKey,{expiresIn:"2h"}, (err, token)=>{
+            if(err){
+                res.send({result: "Something went wrong, Please try after sometime"}); 
+            }
+            res.send({user, auth:token}); 
+        })
         }
     }
     else{
@@ -43,8 +58,8 @@ app.get("/products",async(req,res)=>{
     }else{
         res.send({result:"No result found"});
     }
-    
 })
+
 
 app.get("/product/:id", async (req, res) => {
         let result = await Product.findOne({ _id: req.params.id });
@@ -54,6 +69,7 @@ app.get("/product/:id", async (req, res) => {
             res.send({"result":"No result found"});
         }
 });
+
 
 app.put("/product/:id",async(req, res)=>{
     let result =await Product.updateOne(

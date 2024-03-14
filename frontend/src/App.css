@@ -70,6 +70,14 @@
   margin: 0;
 }
 
+.searchProductBox{
+  width: 400px;
+  margin: 20px;
+  height: 40px;
+  border: 2px solid aqua;
+  padding-left: 20px;
+}
+
 .invalidInput{
   color: red;
   margin: -20px 0 5px 0;
