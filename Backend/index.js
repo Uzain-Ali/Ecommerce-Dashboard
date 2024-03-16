@@ -45,13 +45,13 @@ app.post("/login",async(req, res)=>{
     }   
 })
 
-app.post("/addProduct",async(req,res)=>{
+app.post("/addProduct",verifyToken,async(req,res)=>{
     let product = new Product(req.body);
     let result = await product.save();
     res.send(result);
 })
 
-app.get("/products",async(req,res)=>{
+app.get("/products",verifyToken,async(req,res)=>{
     let products=await Product.find();
     if(products.length > 0){
         res.send(products)
@@ -61,7 +61,7 @@ app.get("/products",async(req,res)=>{
 })
 
 
-app.get("/product/:id", async (req, res) => {
+app.get("/product/:id",verifyToken, async (req, res) => {
         let result = await Product.findOne({ _id: req.params.id });
         if (result) {
             res.send(result);
@@ -71,7 +71,7 @@ app.get("/product/:id", async (req, res) => {
 });
 
 
-app.put("/product/:id",async(req, res)=>{
+app.put("/product/:id",verifyToken,async(req, res)=>{
     let result =await Product.updateOne(
         {_id:req.params.id},
         {$set:req.body}
@@ -79,12 +79,12 @@ app.put("/product/:id",async(req, res)=>{
     res.send(result);
 })
 
-app.delete("/product/:id",async(req,res)=>{
+app.delete("/product/:id",verifyToken,async(req,res)=>{
     const result =await Product.deleteOne({_id:req.params.id});
     res.send(result);
 })
 
-app.get("/search/:key",async(req,res)=>{
+app.get("/search/:key",verifyToken,async(req,res)=>{
     let result = await Product.find({
         "$or":[
             {name:{$regex:req.params.key}},
@@ -95,5 +95,22 @@ app.get("/search/:key",async(req,res)=>{
     });
     res.send(result);
 })
+
+
+function verifyToken(req,res,next){
+    let token = req.headers['authorization'];
+    if(token){
+        token = token.split(' ')[1];
+        jwt.verify(token,jwtKey, (err, valid)=>{
+            if(err){
+                res.status(401).send({result: "Please provide valid token"})
+            }else{
+                next();
+            }
+        })
+    }else{
+        res.status(403).send({result: "Please add token with header"});
+    }
+}
 
 app.listen(5000);
